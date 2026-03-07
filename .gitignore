@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/s2c-boiler-plate
 /.pnp
 .pnp.*
 .yarn/*
@@ -19,7 +20,7 @@
 
 # production
 /build
-
+/s2c-boiler-plate
 # misc
 .DS_Store
 *.pem
