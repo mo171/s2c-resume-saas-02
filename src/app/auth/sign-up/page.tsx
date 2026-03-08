@@ -9,6 +9,8 @@ import {
   AlertCircle,
   ArrowRight,
 } from "lucide-react";
+import { useConvexAuth } from "convex/react";
+import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,11 +26,21 @@ import {
 
 export default function SignupPage() {
   const { signUpForm, handleSignUp, isLoading } = useAuth();
+  const { isAuthenticated, isLoading: authLoading } = useConvexAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = signUpForm;
+
+  useEffect(() => {
+    console.log("📝 SignUp page - Auth state changed:", { 
+      isAuthenticated, 
+      authLoading,
+      pageLoading: isLoading,
+      timestamp: new Date().toISOString()
+    });
+  }, [isAuthenticated, authLoading, isLoading]);
 
   return (
     <Card className="border-[#1E1E2D] bg-[#0A0A12] shadow-2xl backdrop-blur-sm">

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useAuth } from "@/hooks/user-auth";
 import { Loader2, Mail, MessageCircle, AlertCircle } from "lucide-react";
+import { useConvexAuth } from "convex/react";
+import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,11 +19,21 @@ import {
 
 export default function LoginPage() {
   const { signInForm, handleSignIn, isLoading } = useAuth();
+  const { isAuthenticated, isLoading: authLoading } = useConvexAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = signInForm;
+
+  useEffect(() => {
+    console.log("🔐 SignIn page - Auth state changed:", { 
+      isAuthenticated, 
+      authLoading,
+      pageLoading: isLoading,
+      timestamp: new Date().toISOString()
+    });
+  }, [isAuthenticated, authLoading, isLoading]);
 
   return (
     <Card className="border-[#1E1E2D] bg-[#0A0A12] shadow-2xl backdrop-blur-sm">

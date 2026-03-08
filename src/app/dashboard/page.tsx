@@ -1,14 +1,27 @@
 "use client";
 
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
-import { useCurrentUser } from "convex/react";
+import { useConvexAuth, useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 import { useAuth } from "@/hooks/user-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, User } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
+  const { isAuthenticated, isLoading } = useConvexAuth();
+  
+  useEffect(() => {
+    console.log("🎯 Dashboard page loaded - Auth state:", { 
+      isAuthenticated, 
+      isLoading,
+      timestamp: new Date().toISOString()
+    });
+  }, [isAuthenticated, isLoading]);
+
   return (
     <>
       <AuthLoading>
@@ -41,8 +54,18 @@ export default function DashboardPage() {
 }
 
 function DashboardContent() {
-  const user = useCurrentUser();
-  const { handleSignOut } = useAuth();
+  const user = useQuery(api.users.getCurrentUser);
+  const { handleSignOut, clearAuthState } = useAuth();
+  const { isAuthenticated } = useConvexAuth();
+  const router = useRouter();
+
+  console.log("👤 DashboardContent rendered - User data:", {
+    userId: user?._id,
+    email: user?.email,
+    name: user?.name,
+    isAuthenticated,
+    timestamp: new Date().toISOString()
+  });
 
   return (
     <div className="min-h-screen p-8">
@@ -56,6 +79,20 @@ function DashboardContent() {
                 {user?.email}
               </span>
             </div>
+            <Button 
+              variant="secondary" 
+              size="sm"
+              onClick={() => router.push('/debug')}
+            >
+              🔍 Debug
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={clearAuthState}
+            >
+              🧹 Clear
+            </Button>
             <Button variant="outline" onClick={handleSignOut}>
               Sign Out
             </Button>
