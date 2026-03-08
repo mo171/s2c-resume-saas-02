@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/theme/provider";
+import { ConvexClientProvider } from "@/convex/provider";
 import { Toaster } from "@/components/ui/sonner";
 
 
@@ -30,15 +31,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider 
-         attribute="class"
-         defaultTheme="dark"
-         enableSystem
-         disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <ConvexClientProvider>
+          <ThemeProvider 
+           attribute="class"
+           defaultTheme="dark"
+           enableSystem
+           disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </ConvexClientProvider>
       </body>
     </html>
   );
