@@ -1,24 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/theme/provider";
 import { ConvexClientProvider } from "@/convex/provider";
 import { Toaster } from "@/components/ui/sonner";
 
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
-});
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 
 export const metadata: Metadata = {
-  title: "Style Guide",
-  description: "Build beautiful websites, faster than ever.",
+  title: "S2C Resume SaaS",
+  description: "Professional resume builder for modern careers.",
 };
 
 export default function RootLayout({
@@ -29,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} font-sans antialiased`}
       >
         <ConvexClientProvider>
           <ThemeProvider 
